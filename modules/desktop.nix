@@ -31,6 +31,12 @@
     duf
     fastfetch
     kitty
+    kdePackages.plasma-vault
+    gocryptfs
+    gnupg
+    pinentry-curses
+    vlc
+    keepassxc
   ];
 
 }
