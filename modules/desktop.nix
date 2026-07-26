@@ -20,6 +20,7 @@
     noto-fonts-color-emoji
     jetbrains-mono
     inter
+    nerd-fonts.jetbrains-mono
   ];
 
   environment.systemPackages = with pkgs; [
@@ -31,12 +32,32 @@
     duf
     fastfetch
     kitty
-    kdePackages.plasma-vault
     gocryptfs
     gnupg
     pinentry-curses
     vlc
     keepassxc
+    lshw
+    fzf
+    zoxide
+    nmap
+    pfetch
+    spotify
+    krita
+    gimp
+    starship
+    neovim
+    qemu
+    virt-manager
+    vscodium
+    kdePackages.ktorrent
+    kdePackages.kmail
+    kdePackages.kgeography
+    kdePackages.plasma-vault
+    brave
+    hollywood
+    cmatrix
+    ncdu
+    claude-code
   ];
-
 }

@@ -5,6 +5,8 @@
   nix.settings = {
     experimental-features = [ "nix-command" "flakes" ];
     auto-optimise-store = true;
+    trusted-users = [ "root" "@wheel" ];
+    warn-dirty = false;
   };
 
   nix.gc = {
@@ -12,6 +14,15 @@
     dates = "weekly";
     options = "--delete-older-than 30d";
   };
+
+  boot.kernelPackages = pkgs.linuxPackages_7_1;
+  boot.tmp.cleanOnBoot = true;
+
+  security.sudo.execWheelOnly = true;
+
+  programs.nix-ld.enable = true;
+  programs.nix-index.enable = true;
+  programs.command-not-found.enable = false;
 
   time.timeZone = "Europe/Brussels";
 

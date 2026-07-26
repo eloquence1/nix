@@ -23,7 +23,9 @@
       ll = "eza -lah --git";
       la = "eza -a";
       lt = "eza --tree --level=4";
-      rebuild = "sudo nixos-rebuild switch --flake ~/nixos-config#vm";
+      rebuild-avm = "sudo nixos-rebuild switch --flake ~/nixos-config#avm";
+      rebuild-laptop = "sudo nixos-rebuild switch --flake ~/nixos-config#laptop";
+      rebuild-beast = "sudo nixos-rebuild switch --flake ~/nixos-config#beast";
       update = "cd ~/nixos-config && nix flake update";
       gs = "git status";
     };
@@ -42,8 +44,10 @@
 
   programs.git = {
     enable = true;
-    userName = "elo";
-    userEmail = "davidhermans@gmail.com";
+    settings = {
+      user.name = "eloquence1";
+      user.email = "davidhermans@gmail.com";
+   };
   };
 
   programs.direnv = {

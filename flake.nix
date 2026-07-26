@@ -1,5 +1,5 @@
 {
-  description = "NixOS configuration — VM and laptop";
+  description = "NixOS configuration — avm, laptop, beast";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -23,14 +23,14 @@
   in {
     nixosConfigurations = {
 
-      vm = nixpkgs.lib.nixosSystem {
+      avm = nixpkgs.lib.nixosSystem {
         inherit system;
         specialArgs = { inherit inputs; };
         modules = [
           disko.nixosModules.disko
           home-manager.nixosModules.home-manager
-          ./hosts/vm/disko.nix
-          ./hosts/vm/configuration.nix
+          ./hosts/avm/disko.nix
+          ./hosts/avm/configuration.nix
         ];
       };
 
@@ -42,6 +42,17 @@
           home-manager.nixosModules.home-manager
           ./hosts/laptop/disko.nix
           ./hosts/laptop/configuration.nix
+        ];
+      };
+
+      beast = nixpkgs.lib.nixosSystem {
+        inherit system;
+        specialArgs = { inherit inputs; };
+        modules = [
+          disko.nixosModules.disko
+          home-manager.nixosModules.home-manager
+          ./hosts/beast/disko.nix
+          ./hosts/beast/configuration.nix
         ];
       };
 

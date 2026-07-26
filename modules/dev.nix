@@ -1,9 +1,6 @@
 { config, pkgs, ... }:
 {
   environment.systemPackages = with pkgs; [
-    vscode          # unfree — needs allowUnfree in base.nix
-    neovim
-
     nodejs_22
     python313
     go
@@ -11,8 +8,6 @@
 
     gh
     lazygit
-    direnv
-    nix-direnv
     jq
     httpie
   ];

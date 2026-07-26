@@ -8,16 +8,15 @@
     ../../modules/users.nix
   ];
 
-  networking.hostName = "nixos";
+  networking.hostName = "avm";
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.systemd-boot.configurationLimit = 6;
   boot.loader.efi.canTouchEfiVariables = true;
   # systemd in initrd — needed for correct keymap at the LUKS prompt
   boot.initrd.systemd.enable = true;
-  boot.kernelPackages = pkgs.linuxPackages_7_1;
 
-  # VM guest integration — do NOT copy to the laptop
+  # VM guest integration — do NOT copy to the laptop or beast
   services.spice-vdagentd.enable = true;   # clipboard + resolution (QEMU/SPICE)
   services.qemuGuest.enable = true;
 
