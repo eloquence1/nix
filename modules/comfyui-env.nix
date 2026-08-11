@@ -1,0 +1,58 @@
+# FHS environment for running ComfyUI from a normal Python venv.
+#
+# ComfyUI and its custom nodes pip-install prebuilt binary wheels (torch,
+# opencv, onnxruntime, insightface, ...) that are linked against FHS paths.
+# Those cannot run unmodified on NixOS. nix-ld covers simple cases, but the
+# custom-node ecosystem pulls in enough native libraries that chasing them
+# one at a time does not scale — so give them a real FHS tree instead.
+#
+# Usage:  run `comfy-env` to get a shell, then work inside it normally.
+{ config, pkgs, lib, ... }:
+let
+  comfy-env = pkgs.buildFHSEnv {
+    name = "comfy-env";
+
+    targetPkgs =
+      pkgs: with pkgs; [
+        python313
+        uv
+        git
+        git-lfs
+
+        # C/C++ runtime the wheels link against
+        stdenv.cc
+        stdenv.cc.cc.lib
+        zlib
+        zstd
+        openssl
+        curl
+
+        # torch / opencv / onnxruntime native deps
+        libGL
+        libGLU
+        glib
+        ffmpeg
+        libjpeg
+        libpng
+        freetype
+
+        # opencv drags in X even headless
+        xorg.libX11
+        xorg.libXext
+        xorg.libXrender
+        xorg.libSM
+        xorg.libICE
+      ];
+
+    profile = ''
+      # libcuda.so.1 ships with the NVIDIA driver, not with the torch wheel.
+      # On NixOS the driver libraries live here, outside the Nix store.
+      export LD_LIBRARY_PATH=/run/opengl-driver/lib:''${LD_LIBRARY_PATH:-}
+    '';
+
+    runScript = "bash";
+  };
+in
+{
+  environment.systemPackages = [ comfy-env ];
+}

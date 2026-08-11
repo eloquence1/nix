@@ -8,6 +8,7 @@
     ../../modules/users.nix
     ../../modules/network-hardening.nix
     ../../modules/nvidia.nix
+    ../../modules/comfyui-env.nix   # FHS shell for ComfyUI's pip-installed CUDA wheels
   ];
 
   networking.hostName = "beast";
