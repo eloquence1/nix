@@ -47,25 +47,26 @@ let
         # X and XCB. opencv drags these in even headless, and the GLSL nodes
         # need libxcb.so.1. Kept deliberately broad: one missing .so here costs
         # a rebuild to discover, and they are small.
-        xorg.libX11
-        xorg.libXext
-        xorg.libXrender
-        xorg.libSM
-        xorg.libICE
-        xorg.libxcb
-        xorg.libXi
-        xorg.libXrandr
-        xorg.libXcursor
-        xorg.libXinerama
-        xorg.libXcomposite
-        xorg.libXdamage
-        xorg.libXfixes
-        xorg.libXtst
-        xorg.xcbutil
-        xorg.xcbutilimage
-        xorg.xcbutilkeysyms
-        xorg.xcbutilrenderutil
-        xorg.xcbutilwm
+        # Top-level names — the `xorg.*` package set is deprecated in nixpkgs.
+        libx11
+        libxext
+        libxrender
+        libsm
+        libice
+        libxcb
+        libxi
+        libxrandr
+        libxcursor
+        libxinerama
+        libxcomposite
+        libxdamage
+        libxfixes
+        libxtst
+        libxcb-util
+        libxcb-image
+        libxcb-keysyms
+        libxcb-render-util
+        libxcb-wm
         xcb-util-cursor
       ];
 
