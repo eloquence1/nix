@@ -9,6 +9,13 @@
 # Usage:  run `comfy-env` to get a shell, then work inside it normally.
 { config, pkgs, lib, ... }:
 let
+  # Must line up with what torch was built against — check with
+  #   python -c "import torch; print(torch.version.cuda)"
+  # and switch this to the matching cudaPackages_<major>_<minor> if it differs.
+  # Building a torch extension with a mismatched nvcc major version either
+  # fails outright or yields kernels that misbehave at runtime.
+  cudaPkgs = pkgs.cudaPackages_12_9;
+
   comfy-env = pkgs.buildFHSEnv {
     name = "comfy-env";
 
@@ -26,6 +33,12 @@ let
         zstd
         openssl
         curl
+
+        # CUDA toolchain — needed to *compile* extensions such as SageAttention.
+        # The torch wheel bundles a CUDA runtime, but ships no nvcc.
+        cudaPkgs.cudatoolkit
+        ninja
+        cmake
 
         # torch / opencv / onnxruntime native deps
         libGL
@@ -74,6 +87,11 @@ let
       # libcuda.so.1 ships with the NVIDIA driver, not with the torch wheel.
       # On NixOS the driver libraries live here, outside the Nix store.
       export LD_LIBRARY_PATH=/run/opengl-driver/lib:''${LD_LIBRARY_PATH:-}
+
+      # buildFHSEnv symlinks targetPkgs into /usr, so the toolkit's
+      # bin/include/lib land where a normal CUDA build expects them.
+      export CUDA_HOME=/usr
+      export CUDA_PATH=/usr
     '';
 
     runScript = "bash";
