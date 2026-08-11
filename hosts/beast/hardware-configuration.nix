@@ -1,21 +1,25 @@
-# PLACEHOLDER — this host has not been installed yet.
+# PLACEHOLDER — hand-written so the flake evaluates before beast exists.
 #
-# After booting the installer and partitioning with ./disko.nix, run:
-#   nixos-generate-config --no-filesystems --root /mnt
-# and replace this entire file with the generated
-# /mnt/etc/nixos/hardware-configuration.nix (disko already supplies the
-# filesystem/mount entries, hence --no-filesystems).
+# After the first boot on the real machine, regenerate and replace this file:
+#   sudo nixos-generate-config --no-filesystems --show-hardware-config \
+#     > ~/nixos-config/hosts/beast/hardware-configuration.nix
+#
+# --no-filesystems matters: disko.nix owns fileSystems/swapDevices, and a
+# generated fileSystems block would collide with it.
 { config, lib, pkgs, modulesPath, ... }:
+
 {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
-  # TODO: replace with the real modules from nixos-generate-config.
-  boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usb_storage" "sd_mod" ];
-  boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-intel" ]; # or "kvm-amd"
+  # Generic desktop set: NVMe + SATA + USB boot paths. The real scan may add
+  # or drop entries; that is what the regenerate step above is for.
+  boot.initrd.availableKernelModules = [
+    "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod"
+  ];
+  boot.initrd.kernelModules = [ "dm-snapshot" ];   # LVM-on-LUKS root
+  boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
-  # hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }
