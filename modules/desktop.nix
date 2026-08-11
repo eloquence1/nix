@@ -1,8 +1,12 @@
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 {
   services.xserver.enable = true;
   services.displayManager.sddm.wayland.enable = true;
   services.desktopManager.plasma6.enable = true;
+
+  # Plasma is enabled here, so wire up its declarative counterpart here too.
+  # sharedModules applies to every home-manager user on the host.
+  home-manager.sharedModules = [ inputs.plasma-manager.homeModules.plasma-manager ];
 
   # Audio
   services.pulseaudio.enable = false;

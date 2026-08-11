@@ -1,5 +1,7 @@
 { config, pkgs, ... }:
 {
+  imports = [ ./plasma.nix ];
+
   home.username = "elo";
   home.homeDirectory = "/home/elo";
   home.stateVersion = "26.05";
