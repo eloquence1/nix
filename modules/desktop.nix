@@ -59,5 +59,8 @@
     cmatrix
     ncdu
     claude-code
+    blender
+    uv
+    godot
   ];
 }
