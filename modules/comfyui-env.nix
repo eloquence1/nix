@@ -9,12 +9,11 @@
 # Usage:  run `comfy-env` to get a shell, then work inside it normally.
 { config, pkgs, lib, ... }:
 let
-  # Must line up with what torch was built against — check with
-  #   python -c "import torch; print(torch.version.cuda)"
-  # and switch this to the matching cudaPackages_<major>_<minor> if it differs.
-  # Building a torch extension with a mismatched nvcc major version either
-  # fails outright or yields kernels that misbehave at runtime.
-  cudaPkgs = pkgs.cudaPackages_12_9;
+  # Must line up with what torch was built against — torch's cpp_extension
+  # hard-fails the build on a mismatch. Confirmed against the installed wheel:
+  #   python -c "import torch; print(torch.version.cuda)"  ->  13.0
+  # Re-check this after any torch upgrade.
+  cudaPkgs = pkgs.cudaPackages_13_0;
 
   comfy-env = pkgs.buildFHSEnv {
     name = "comfy-env";
