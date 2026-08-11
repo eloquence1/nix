@@ -26,7 +26,7 @@
     extraInputRules = ''
       ip saddr 10.10.25.20  tcp dport 41952 accept
       ip saddr 10.10.25.27  tcp dport 41952 accept
-      #ip saddr 10.10.25.102 tcp dport 41952 accept
+      ip saddr 10.10.25.21  tcp dport 41952 accept
       ip saddr 10.10.25.27  tcp dport 5201  accept
 
       # Spotify
