@@ -32,6 +32,9 @@
       # Spotify
       ip saddr 10.10.25.0/24 tcp dport 57621 accept
       ip saddr 10.10.25.0/24 udp dport 5353  accept
+
+      # Comfy
+      ip saddr 10.10.25.21 tcp dport 8188 accept
     '';
   };
 
