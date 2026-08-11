@@ -36,12 +36,37 @@ let
         libpng
         freetype
 
-        # opencv drags in X even headless
+        # GL/EGL — nodes_glsl and anything doing offscreen rendering
+        libglvnd
+        mesa
+        libxkbcommon
+        fontconfig
+        dbus
+        alsa-lib
+
+        # X and XCB. opencv drags these in even headless, and the GLSL nodes
+        # need libxcb.so.1. Kept deliberately broad: one missing .so here costs
+        # a rebuild to discover, and they are small.
         xorg.libX11
         xorg.libXext
         xorg.libXrender
         xorg.libSM
         xorg.libICE
+        xorg.libxcb
+        xorg.libXi
+        xorg.libXrandr
+        xorg.libXcursor
+        xorg.libXinerama
+        xorg.libXcomposite
+        xorg.libXdamage
+        xorg.libXfixes
+        xorg.libXtst
+        xorg.xcbutil
+        xorg.xcbutilimage
+        xorg.xcbutilkeysyms
+        xorg.xcbutilrenderutil
+        xorg.xcbutilwm
+        xcb-util-cursor
       ];
 
     profile = ''
