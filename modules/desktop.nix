@@ -66,5 +66,6 @@
     blender
     uv
     godot
+    reaper
   ];
 }

@@ -67,6 +67,10 @@
     ];
   };  
 
+  # Let HM overwrite this generated file instead of backing it up —
+  # stops the recurring ".hm-backup would be clobbered" switch failure.
+  xdg.configFile."fontconfig/conf.d/10-hm-fonts.conf".force = true;
+
   home.packages = with pkgs; [
     # user-level packages go here instead of environment.systemPackages
   ];
